@@ -56,5 +56,5 @@ The application uses three tables in the SQLite database:
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/library-management-system.git
+   git clone https://github.com/raihan-ly/LibraryManagementSystem.git
    cd library-management-system
