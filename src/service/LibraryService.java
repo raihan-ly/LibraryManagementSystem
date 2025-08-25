@@ -2,17 +2,18 @@ package service;
 
 import model.Book;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LibraryService {
 
-    private ArrayList<Book> books = new ArrayList<>();
+    private HashMap<Integer, Book> books = new HashMap<>();
     private int nextId = 1;
 
     public void addBook(String title, String author, String category) {
-        Book addedBook = new Book(nextId++, title, author, category, true);
-        books.add(addedBook);
+        Book addedBook = new Book(nextId, title, author, category, true);
+        books.put(nextId, addedBook);
         System.out.println("Book added: " + addedBook);
+        nextId++;
     }
 
     public void listBooks() {
@@ -21,47 +22,43 @@ public class LibraryService {
             return;
         }
         System.out.println("Library Books:");
-        for (Book book: books) {
+        for (Book book: books.values()) {
             System.out.println(book);
         }
     }
-    
+
     public void borrowBook(int id) {
-        for (Book book: books) {
-            if (book.getId() == id) {
-                if (book.isAvailable()) {
-                    book.setAvailable(false);
-                    System.out.println("Borrowed Book: " + book.getTitle());
-                }
-                else {
-                    System.out.println("Book is already borrowed.");
-                }
-                return;
-            }
+        Book book = books.get(id);
+        if (book == null) {
+            System.out.println("Book not found having id " + id);
+            return;
         }
-        System.out.println("Book not found having id " + id);
+        if(book.isAvailable()) {
+            book.setAvailable(false);
+            System.out.println("Borrowed Book: " + book.getTitle());
+        } else {
+            System.out.println("Book is already borrowed");
+        }
     }
 
     public void returnBook(int id) {
-        for (Book book: books) {
-            if (book.getId() == id) {
-                if (!book.isAvailable()) {
-                    book.setAvailable(true);
-                    System.out.println("Book returned: " + book.getTitle());
-                }
-                else {
-                    System.out.println("Book is available and hasn't been borrowed");
-                }
-                return;
-            }
+        Book book = books.get(id);
+        if (book == null) {
+            System.out.println("Book not found having id " + id);
+            return;
         }
-        System.out.println("Book not found with id: " + id);
+        if (!book.isAvailable()) {
+            book.setAvailable(true);
+            System.out.println("Book returned: " + book.getTitle());
+        } else {
+            System.out.println("Book is already available: " + book.getTitle());
+        }
     }
 
     public void searchBook(String keyword) {
         boolean found = false;
         String lowerKeyword = keyword.toLowerCase();
-        for (Book book: books) {
+        for (Book book: books.values()) {
             if (book.getTitle().toLowerCase().contains(lowerKeyword)){
                 System.out.println("Book found: " + book.getTitle());
                 found = true;
