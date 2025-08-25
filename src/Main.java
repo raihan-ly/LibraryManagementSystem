@@ -1,9 +1,8 @@
 import service.LibraryService;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
         LibraryService library = new LibraryService();
@@ -13,7 +12,14 @@ public class Main {
         while (true) {
             System.out.println("\n===Library Menu===\n1) Add Book\n2) List Books\n3) Borrow Book\n4) Return Book\n5) Search by Title\n6) Exit\n");
             System.out.println("Select: ");
-            int input = scanner.nextInt();
+            int input;
+            try {
+                input = scanner.nextInt();
+            } catch (InputMismatchException e ) {
+                System.out.println("Type a number: ");
+                scanner.nextLine();
+                continue;
+            }
             scanner.nextLine();
 
             switch (input) {
@@ -36,16 +42,30 @@ public class Main {
 
                 case 3:
                     System.out.println("Enter book id: ");
-                    int borrowId = scanner.nextInt();
-                    scanner.nextLine();
-                    library.borrowBook(borrowId);
+                    int borrowId;
+                    try {
+                        borrowId= scanner.nextInt();
+                        scanner.nextLine();
+                        library.borrowBook(borrowId);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid ID! Please enter a number.");
+                        scanner.nextLine();
+                        continue;
+                    }
                     break;
 
                 case 4:
                     System.out.println("Enter book id: ");
-                    int returnId = scanner.nextInt();
-                    scanner.nextLine();
-                    library.returnBook(returnId);
+                    int returnId;
+                    try {
+                        returnId = scanner.nextInt();
+                        scanner.nextLine();
+                        library.returnBook(returnId);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid ID! Please enter a number.");
+                        scanner.nextLine();
+                        continue;
+                    }
                     break;
 
                 case 5:
