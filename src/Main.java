@@ -1,3 +1,4 @@
+import exception.BookNotFoundException;
 import service.LibraryService;
 
 import java.util.InputMismatchException;
@@ -52,6 +53,10 @@ public class Main {
                         scanner.nextLine();
                         continue;
                     }
+                    catch (BookNotFoundException e) {
+                        System.out.println(e.getMessage());
+                        continue;
+                    }
                     break;
 
                 case 4:
@@ -61,9 +66,13 @@ public class Main {
                         returnId = scanner.nextInt();
                         scanner.nextLine();
                         library.returnBook(returnId);
-                    } catch (InputMismatchException e) {
+                    } catch (InputMismatchException e ) {
                         System.out.println("Invalid ID! Please enter a number.");
                         scanner.nextLine();
+                        continue;
+                    }
+                    catch (BookNotFoundException e) {
+                        System.out.println(e.getMessage());
                         continue;
                     }
                     break;

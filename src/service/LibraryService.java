@@ -1,5 +1,6 @@
 package service;
 
+import exception.BookNotFoundException;
 import model.Book;
 
 import java.util.HashMap;
@@ -27,11 +28,10 @@ public class LibraryService {
         }
     }
 
-    public void borrowBook(int id) {
+    public void borrowBook(int id) throws BookNotFoundException {
         Book book = books.get(id);
         if (book == null) {
-            System.out.println("Book not found having id " + id);
-            return;
+            throw new BookNotFoundException("Book with ID " + id + " not found");
         }
         if(book.isAvailable()) {
             book.setAvailable(false);
@@ -41,11 +41,10 @@ public class LibraryService {
         }
     }
 
-    public void returnBook(int id) {
+    public void returnBook(int id) throws BookNotFoundException {
         Book book = books.get(id);
         if (book == null) {
-            System.out.println("Book not found having id " + id);
-            return;
+            throw new BookNotFoundException("Book with ID " + id + " not found");
         }
         if (!book.isAvailable()) {
             book.setAvailable(true);
